@@ -4,6 +4,7 @@ import joblib
 import pandas as pd
 import os
 
+
 app = Flask(__name__)
 CORS(app)  # ✅ Enable CORS
 
@@ -14,9 +15,9 @@ loaded_pipeline = joblib.load('diabetes_pipeline.joblib')
 def home():
     return jsonify({"message": "Diabetes Prediction API is running"})
 
-@app.route('/form')
+@app.route("/form")
 def form():
-    return render_template('index.html')
+    return render_template("index.html")
 
 @app.route('/predict', methods=['POST'])
 def predict():
