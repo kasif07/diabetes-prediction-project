@@ -23,17 +23,29 @@ def form():
 def predict():
     try:
         data = request.get_json()
+
         input_df = pd.DataFrame([data])
 
         prediction = loaded_pipeline.predict(input_df)
         probability = loaded_pipeline.predict_proba(input_df)[0]
 
-if prediction[0] == 1:
-    advice = "High diabetes risk. Maintain diet and consult doctor."
-else:
-    advice = "Low diabetes risk. Maintain healthy lifestyle."
+        if prediction[0] == 1:
+            advice = "High diabetes risk. Maintain diet and consult doctor."
+        else:
+            advice = "Low diabetes risk. Maintain healthy lifestyle."
 
-return jsonify({
+        return jsonify({
+            "prediction_class": int(prediction[0]),
+            "prediction_label": "Diabetic" if prediction[0]==1 else "Non-Diabetic",
+            "confidence":{
+                "Non-Diabetic": float(probability[0]),
+                "Diabetic": float(probability[1])
+            },
+            "advice": advice
+        })
+
+    except Exception as e:
+        return jsonify({"error": str(e)})y({
     "prediction_class": int(prediction[0]),
     "prediction_label": "Diabetic" if prediction[0] == 1 else "Non-Diabetic",
     "confidence": {
