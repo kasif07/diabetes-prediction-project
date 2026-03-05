@@ -2,8 +2,6 @@
 
 A full-stack machine learning application that predicts the likelihood of diabetes based on key health indicators. This project showcases an end-to-end workflow, from data analysis and model training to API deployment and a web-based user interface.
 
-<!-- Optional: Add a GIF or Screenshot of your web app in action here! -->
-<!-- ![Demo GIF](./demo.gif) -->
 
 ---
 
