@@ -45,7 +45,7 @@ def predict():
         })
 
     except Exception as e:
-        return jsonify({"error": str(e)})y({
+    return jsonify({"error": str(e)})({
     "prediction_class": int(prediction[0]),
     "prediction_label": "Diabetic" if prediction[0] == 1 else "Non-Diabetic",
     "confidence": {
