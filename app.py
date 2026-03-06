@@ -4,22 +4,27 @@ import joblib
 import pandas as pd
 import os
 
-
 app = Flask(__name__)
-CORS(app)  # ✅ Enable CORS
+CORS(app)
 
-# Load ML model
-loaded_pipeline = joblib.load('diabetes_pipeline.joblib')
+# Load trained ML model
+loaded_pipeline = joblib.load("diabetes_pipeline.joblib")
 
-@app.route('/')
+
+# Home route
+@app.route("/")
 def home():
     return jsonify({"message": "Diabetes Prediction API is running"})
 
+
+# Frontend form
 @app.route("/form")
 def form():
     return render_template("index.html")
 
-@app.route('/predict', methods=['POST'])
+
+# Prediction API
+@app.route("/predict", methods=["POST"])
 def predict():
     try:
         data = request.get_json()
@@ -36,8 +41,8 @@ def predict():
 
         return jsonify({
             "prediction_class": int(prediction[0]),
-            "prediction_label": "Diabetic" if prediction[0]==1 else "Non-Diabetic",
-            "confidence":{
+            "prediction_label": "Diabetic" if prediction[0] == 1 else "Non-Diabetic",
+            "confidence": {
                 "Non-Diabetic": float(probability[0]),
                 "Diabetic": float(probability[1])
             },
@@ -45,18 +50,10 @@ def predict():
         })
 
     except Exception as e:
-    return jsonify({"error": str(e)})({
-    "prediction_class": int(prediction[0]),
-    "prediction_label": "Diabetic" if prediction[0] == 1 else "Non-Diabetic",
-    "confidence": {
-        "Non-Diabetic": float(probability[0]),
-        "Diabetic": float(probability[1])
-    },
-    "advice": advice
-})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 400
+        return jsonify({"error": str(e)})
 
+
+# Run server
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
